@@ -2,6 +2,8 @@
 # to methods as you see fit, or to create helper methods.
 
 require('bst_node')
+require 'byebug'
+
 
 class BinarySearchTree
 
@@ -12,30 +14,31 @@ class BinarySearchTree
   end
 
   def insert(value, node = @root)
-    if @node.nil?
+    if node.nil?
       @root = BSTNode.new(value)
       return
     else
-      if value < node.value
+      if value <= node.value
         if node.left
           insert(value, node.left)
         else
           node.left = BSTNode.new(value)
         end
       end
-      else
-        if value > node.value
-          if node.right
-            insert(value, node.right)
-          else
-            node.right = BSTNode.new(value)
-          end
+      if value >= node.value
+        if node.right
+          insert(value, node.right)
+        else
+          node.right = BSTNode.new(value)
         end
       end
     end
   end
 
   def find(value, tree_node = @root)
+    return nil if tree_node.nil?
+    if tree_node.right && tree_node.right 
+
   end
 
   def delete(value)
