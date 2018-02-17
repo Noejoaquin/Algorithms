@@ -46,10 +46,40 @@ class BinarySearchTree
   end
 
   def delete(value)
+    tree_node = find(value)
+    if tree_node.left.nil? && tree_node.right.nil?
+      return @root = nil if tree_node == @root
+      parent = find_parent(tree_node, @root)
+      parent.left == tree_node ? parent.left = nil : parent.right = nil
+
+    elsif children_amt(tree_node) == 1
+      parent = find_parent(tree_node, @root)
+      if parent.left == tree_node
+        tree_node.left ? parent.left = tree_node.left : parent.left = tree_node.right
+      else
+        tree_node.left ? parent.right = tree_node.left : parent.right = tree_node.right
+      end
+    elsif children_amt(tree_node) == 2
+      parent_node = find_parent(tree_node, @root)
+      max_decendent = maximum(tree_node.left)
+      # puts max_decendent.value
+      max_parent = find_parent(max_decendent, @root)
+      if parent_node.left == tree_node
+        debugger
+        parent_node.left == max_decendent
+      else
+        parent_node.right == max_decendent
+      end
+      if max_decendent.left
+        max_parent.right = max_decendent.left
+      end
+    end
   end
 
   # helper method for #delete:
   def maximum(tree_node = @root)
+    return tree_node if tree_node.right.nil?
+    maximum(tree_node.right)
   end
 
   def depth(tree_node = @root)
@@ -63,6 +93,22 @@ class BinarySearchTree
 
 
   private
+  def find_parent(tree_node, node_to_check)
+    if node_to_check.right == tree_node || node_to_check.left == tree_node
+      return node_to_check
+    end
+      find_parent(tree_node, node_to_check.left) ||
+      find_parent(tree_node, node_to_check.right)
+  end
+
+  def children_amt(node)
+    if node.left && node.right
+      return 2
+    else
+      return 1
+    end
+  end
+
   # optional helper methods go here:
 
 end
