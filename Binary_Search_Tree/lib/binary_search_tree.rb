@@ -59,13 +59,13 @@ class BinarySearchTree
       else
         tree_node.left ? parent.right = tree_node.left : parent.right = tree_node.right
       end
+
     elsif children_amt(tree_node) == 2
       parent_node = find_parent(tree_node, @root)
       max_decendent = maximum(tree_node.left)
       # puts max_decendent.value
       max_parent = find_parent(max_decendent, @root)
       if parent_node.left == tree_node
-        debugger
         parent_node.left == max_decendent
       else
         parent_node.right == max_decendent
@@ -83,9 +83,31 @@ class BinarySearchTree
   end
 
   def depth(tree_node = @root)
+    return 0 if tree_node.nil?
+    return 0 if tree_node.left.nil? && tree_node.right.nil?
+    if tree_node.left
+      left_tree_depth = 1 + depth(tree_node.left)
+    else
+      left_tree_depth = 0
+    end
+    if tree_node.right
+      right_tree_depth = 1 + depth(tree_node.right)
+    else
+      right_tree_depth = 0
+    end
+    [left_tree_depth, right_tree_depth].max
   end
 
   def is_balanced?(tree_node = @root)
+    return true if tree_node.nil?
+    right_depth = depth(tree_node.right)
+    left_depth = depth(tree_node.left)
+
+    if (right_depth - left_depth).abs <= 1 && is_balanced?(tree_node.left) && is_balanced?(tree_node.right)
+      return true
+    end
+    false
+
   end
 
   def in_order_traversal(tree_node = @root, arr = [])
