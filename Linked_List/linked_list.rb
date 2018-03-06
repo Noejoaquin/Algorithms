@@ -3,13 +3,4 @@ class LinkedList
     @head = nil
   end
 
-  def append(value)
-    if @head
-      
-    end
-
-  end
-
-
-
 end
